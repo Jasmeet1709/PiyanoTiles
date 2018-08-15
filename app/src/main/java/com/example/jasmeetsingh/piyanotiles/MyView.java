@@ -1,5 +1,7 @@
 package com.example.jasmeetsingh.piyanotiles;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,9 +10,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.media.MediaPlayer;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityManagerCompat;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -69,7 +74,7 @@ public class MyView extends View {
         sPaint.setFakeBoldText(true);
         sPaint.setShadowLayer(5f, 8f, 8f, Color.DKGRAY);
     }
-
+    
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -208,6 +213,14 @@ public class MyView extends View {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage("Do you want to retry")
                 .setCancelable(false)
+                .setNegativeButton("Exit",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        onFinishTemporaryDetach();
+                        System.exit(0);
+                    }
+
+                })
                 .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -218,4 +231,5 @@ public class MyView extends View {
                 });
         builder.create().show();
     }
+
 }
